@@ -1,0 +1,59 @@
+--- hubspot/build.py
++++ hubspot-seo-2026-11-25/build.py
+@@ -12,6 +12,13 @@
+   - Sin modo "por qué", sin aviso de prototipo y sin comentarios internos (HTML sin comentarios, JS y CSS minificados).
+   - La hoja de estilos va después de {{ standard_header_includes }} y neutraliza el estilo de la caja de idea
+     anterior que trae el encabezado de la página /latam en HubSpot.
++Copia de preparación (25-nov-2026, documento de SEO de Dirección). NO se publica sin el visto bueno de David.
++Sale en hubspot-seo-2026-11-25/dist/ y no toca hubspot/dist/. Frente a hubspot/build.py:
++  - Marca escrita igual que en el sitio principal y en los datos estructurados propuestos: "Think4Ever" en el título.
++  - Regla de copy de Dirección como comprobación del build: "Living Blueprint" / "plano vivo" no va solo en el
++    título ni en el H1, y la página tiene un solo H1.
++  - La vista previa local lleva el título y la descripción de la página en HubSpot (antes, el título viejo y la
++    descripción vacía) y comprueba que conserva el noindex del encabezado de /latam.
+ Uso: python build.py
+ """
+ import os, re, shutil, subprocess
+@@ -36,7 +43,20 @@
+ 
+ H1_ES = '¿No programas? Igual puedes <em>diseñar y construir</em> tu app.'
+ H1_EN = 'No coding needed. <em>Design and build</em> your app.'
+-TITLE_EN = 'Think4ever: design and build your app, no coding needed'
++TITLE_EN = 'Think4Ever: design and build your app, no coding needed'
++# Título y descripción en español: viven en Configuración de la página en HubSpot (no en la plantilla).
++# Aquí solo alimentan la vista previa local. El título propuesto cambia "Think4ever" por "Think4Ever".
++TITLE_ES = 'Think4Ever: diseña y construye tu app sin programar'
++DESC_ES = ('¿No programas? Cuenta tu idea en tus palabras: Think4Ever te pregunta lo que falta, '
++           'la diseña contigo y la construye. Crea tu cuenta gratis.')
++
++# Regla de copy de Dirección (documento de SEO, 24-nov): "Living Blueprint" es el nombre de la idea, pero nunca va
++# solo en un título o H1; siempre con una frase que la gente busca. Si algún día se usa, el build obliga a revisarlo.
++COPY_RULE = re.compile(r'living\s+(system\s+)?(blueprint|map)|plano\s+vivo|mapa\s+vivo', re.I)
++for _name, _val in (('H1_ES', H1_ES), ('H1_EN', H1_EN), ('TITLE_EN', TITLE_EN), ('TITLE_ES', TITLE_ES)):
++    assert not COPY_RULE.search(re.sub(r'<[^>]+>', '', _val)), (
++        'regla de copy: ' + _name + ' usa "Living Blueprint" o "plano vivo". Va con una frase que la gente busca, '
++        'por ejemplo "un mapa de arquitectura siempre al día de tu código". Revisar antes de publicar.')
+ PORTAL_LOGIN = 'https://portal.think4ever.com/#/login'
+ SIGNUP = 'https://think4ever.com/#start'
+ EB = 'https://go.think4ever.com/es/developer-network-co'
+@@ -144,6 +164,7 @@
+         continue
+     assert bad not in body, 'queda en el HTML: ' + bad
+ assert '{{' not in body and '{%' not in body and '{#' not in body
++assert len(re.findall(r'<h1[\s>]', body)) == 1, 'la página debe tener un solo H1 (documento de SEO, 3.4)'
+ assert '{{' not in CSS_MIN + JS_MIN and '{%' not in CSS_MIN + JS_MIN and '{#' not in CSS_MIN + JS_MIN, 'secuencia HubL en CSS o JS'
+ 
+ FONTS = """<link rel="preconnect" href="https://fonts.googleapis.com">
+@@ -188,9 +209,10 @@
+ # Vista previa local: sin HubL y con el estilo heredado del encabezado de /latam, para probar que no rompe la caja
+ HEAD_LATAM = open(os.path.join(SRC, '..', 'integracion', 'encabezado-pagina-a.html'), encoding='utf-8').read()
+ prev = tpl.replace('{# content-mcp-managed #}\n', '').replace('<!--\n  templateType: "page"\n  isAvailableForNewContent: true\n-->\n', '', 1)
+-prev = prev.replace('{{ content.html_title }}', 'Think4ever: tu idea o tu código, en un plano vivo')
+-prev = prev.replace('{{ content.meta_description }}', '')
++prev = prev.replace('{{ content.html_title }}', TITLE_ES)
++prev = prev.replace('{{ content.meta_description }}', DESC_ES)
+ prev = prev.replace('{{ standard_header_includes }}', HEAD_LATAM)
++assert 'noindex' in prev, 'la vista previa debe llevar el noindex del encabezado de /latam'
+ prev = prev.replace('{{ standard_footer_includes }}', '')
+ open(os.path.join(DIST, 'vista-previa.html'), 'w', encoding='utf-8', newline='\n').write(prev)
+ 

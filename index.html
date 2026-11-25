@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Think4Ever (prototipo)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="assets/mascota/idle/f_0001.webp">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-v="a">
+
+<!-- Textos: el HTML trae el español. El inglés vive en app.js (objeto EN) y se aplica a cada
+     elemento con data-t. Idioma: ?lang=en | ?lang=es, el botón del encabezado, o el del navegador. -->
+
+<div class="backdrop" aria-hidden="true"></div>
+
+<header class="top">
+  <a class="logo" href="#inicio" aria-label="Think4Ever">
+    <!-- Símbolo redibujado con los trazos del logo oficial. El texto es aproximado: reemplazar por logo.svg -->
+    <svg class="logo-mark" viewBox="0 0 60 34" width="46" height="26" aria-hidden="true">
+      <path fill="#1D63E0" d="M2.345 0h36.638a7.327 7.327 0 0 1 7.328 7.328 7.327 7.327 0 0 1-7.328 7.327H2.345q-2.344 0-2.345-2.344V2.345Q.001.001 2.345 0"/>
+      <path fill="#B7CCF4" d="M20.81 19.345H57.45q2.343.001 2.344 2.345v9.965Q59.793 34 57.45 34H20.81a7.326 7.326 0 0 1-7.328-7.327 7.326 7.326 0 0 1 7.328-7.328"/>
+      <circle fill="#fff" cx="38.983" cy="7.328" r="4.69"/>
+      <circle fill="#FF7A1A" cx="38.983" cy="7.328" r="2.931"/>
+      <circle fill="#fff" cx="20.81" cy="26.673" r="4.69"/>
+      <circle fill="#0B1B3A" cx="20.81" cy="26.673" r="2.931"/>
+    </svg>
+    <span class="logo-word">think<b>4ever</b></span>
+  </a>
+  <nav class="top-actions">
+    <button class="lang" type="button" id="lang" aria-label="Change language / Cambiar idioma">EN</button>
+    <a class="link-quiet" href="#" data-proto="login" data-t="login">Iniciar sesión</a>
+    <a class="btn btn-small" href="#registro" data-t="start">Empieza gratis</a>
+  </nav>
+</header>
+
+<main id="inicio">
+
+  <!-- ============ PRIMERA PANTALLA ============ -->
+  <section class="hero">
+
+    <!-- La mascota. Sin marco: el fondo blanco de los cuadros se funde con la página.
+         De ella salen el Living Blueprint y el UX/UI una vez, y vuelven a entrar. Después solo al tocarla. -->
+    <div class="mascot" id="mascot" role="button" tabindex="0" aria-label="Ver qué crea Think4Ever" data-t-aria="mascotAria">
+      <!-- Opción 2 de la mascota (?hero=2): escenas que cambian solas detrás del cerebro, al ritmo del texto -->
+      <div class="scenes" id="scenes" aria-hidden="true"></div>
+      <canvas id="mascot-canvas" width="1280" height="720"></canvas>
+      <span class="mascot-tag" id="mascot-tag" aria-hidden="true"></span>
+    </div>
+
+    <h1 data-t="h1">Tu idea o tu código, en un <em>plano vivo</em>.</h1>
+
+    <p class="typed-line" aria-live="off">
+      <span class="typed" id="typed">Diseña tu sistema</span><span class="caret" aria-hidden="true"></span>
+    </p>
+    <p class="sr-only" data-t="srSummary">Think4Ever diseña tu sistema, genera tu UX/UI, mapea tu código y lo construye con tu IA.</p>
+
+    <!-- ===== VARIANTE A: caja de idea =====
+         Solo el texto y el botón de enviar. Los controles de adjuntar, conectar y dictar se
+         quitaron el 12-nov: en la landing no hacen nada y confundían (comentario del equipo de desarrollo). -->
+    <div class="var-a">
+      <form class="idea" id="idea-form" novalidate>
+        <label class="sr-only" for="idea" data-t="ideaLabel">Describe tu idea</label>
+        <textarea id="idea" name="idea" rows="2" maxlength="4000" data-t-ph="ideaPh"
+          placeholder="¿Qué quieres construir? Ej.: una app para que los técnicos cierren órdenes"></textarea>
+        <div class="idea-bar">
+          <button class="send" type="submit">
+            <span data-t="send">Crear mi plano</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 12h14m0 0-6-6m6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <p class="idea-hint" id="idea-hint" hidden data-t="ideaHint">Escribe tu idea en una frase y la convertimos en plano.</p>
+      </form>
+
+      <!-- Las cuatro rutas de la página actual -->
+      <div class="chips" role="group" aria-label="Rutas" data-t-aria="chipsAria">
+        <button type="button" class="chip" data-path="intent" data-t="chipIntent">Diseñar a partir de la intención</button>
+        <button type="button" class="chip" data-path="code" data-t="chipCode">Analizar código existente</button>
+        <button type="button" class="chip" data-path="hardening" data-t="chipHard">Preparación para producción</button>
+        <button type="button" class="chip" data-path="prototype" data-t="chipProto">Prototipo rápido</button>
+      </div>
+
+      <!-- Registro: Google y correo en una línea -->
+      <div class="signup" id="registro">
+        <p class="signup-label" data-t="signupLabel">o crea tu cuenta gratis con</p>
+        <div class="providers"></div>
+        <p class="fine" data-t="fine">Sin tarjeta. Al continuar aceptas los <a href="#" data-proto="legal">Términos</a> y la <a href="#" data-proto="legal">Política de privacidad</a>.</p>
+        <p class="perk perk-center"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="#1D63E0" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-t="accPerk">Plan gratis con 500 créditos</span></p>
+      </div>
+    </div>
+
+    <!-- ===== VARIANTE B: formulario =====
+         El formulario más corto posible (propuesta de Publicidad, página de prueba 3): un solo campo. -->
+    <div class="var-b">
+      <form class="account" id="account-form" novalidate>
+        <h2 class="account-title" data-t="accTitle">Crea tu cuenta</h2>
+        <div class="providers providers-one" data-only="google"></div>
+        <p class="or"><span data-t="accOr">o con tu correo</span></p>
+        <label class="field-label" for="email" data-t="accEmail">Correo electrónico</label>
+        <input class="field" id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="tu@correo.com" data-t-ph="accPh">
+        <p class="idea-hint" id="email-hint" hidden data-t="accHint">Escribe un correo válido.</p>
+        <button class="btn btn-wide" type="submit" data-t="accBtn">Crear cuenta gratis</button>
+        <p class="fine" data-t="fine">Sin tarjeta. Al continuar aceptas los <a href="#" data-proto="legal">Términos</a> y la <a href="#" data-proto="legal">Política de privacidad</a>.</p>
+        <p class="perk"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="#1D63E0" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-t="accPerk">Plan gratis con 500 créditos</span></p>
+        <p class="fine"><span data-t="accHave">¿Ya tienes una cuenta?</span> <a href="#" data-proto="login" data-t="login">Iniciar sesión</a></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ QUÉ HACE ============ -->
+  <section class="block" id="que-hace">
+    <p class="eyebrow" data-t="whatEyebrow">Qué hace Think4Ever</p>
+    <h2 data-t="whatH2">Tus herramientas de IA escriben código. Think4Ever les da el contexto.</h2>
+    <div class="cards">
+      <article class="card">
+        <span class="dot dot-blue" aria-hidden="true"></span>
+        <h3 data-t="c1h">Plano vivo</h3>
+        <p data-t="c1p">Roles, flujos, reglas y pantallas de tu sistema en un solo lugar. Se puede cambiar sin perder el objetivo del proyecto.</p>
+      </article>
+      <article class="card">
+        <span class="dot dot-orange" aria-hidden="true"></span>
+        <h3 data-t="c2h">Del diseño al código, y de vuelta</h3>
+        <p data-t="c2p">Diseña primero cómo debe funcionar y deja que tu IA lo construya. O trae el código que ya tienes y míralo como un sistema.</p>
+      </article>
+      <article class="card">
+        <span class="dot dot-navy" aria-hidden="true"></span>
+        <h3 data-t="c3h">Listo para producción</h3>
+        <p data-t="c3p">Revisa lo que construiste con IA contra 9 pilares y 39 controles, con una nota de la A a la E y la lista de qué corregir.</p>
+      </article>
+    </div>
+
+    <div class="mcp">
+      <div>
+        <h3 data-t="mcpH">Ya tienes tu IA. Conéctala.</h3>
+        <p data-t="mcpP">El plano vive fuera de la herramienta de código. Lo usan todas, sin pagar la IA dos veces.</p>
+      </div>
+      <ul class="tools" aria-label="Herramientas compatibles" data-t-aria="toolsAria">
+        <li>Claude Code</li><li>Codex</li><li>Cursor</li><li>Windsurf</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ CÓMO FUNCIONA ============ -->
+  <!-- Sin marco ni reproductor: la mascota vive en el fondo de la página y se mueve con el scroll,
+       mientras los tres pasos se deslizan. -->
+  <section class="how" id="como-funciona">
+    <div class="how-sticky">
+      <div class="how-visual" aria-hidden="true">
+        <canvas id="how-canvas" width="1080" height="1080"></canvas>
+      </div>
+      <div class="how-copy">
+        <p class="eyebrow" data-t="howEyebrow">Cómo funciona</p>
+        <h2 data-t="howH2">De tu idea a un plano vivo en tres pasos.</h2>
+        <div class="how-steps">
+          <article class="how-step" data-step="0">
+            <span class="how-num">1</span>
+            <h3 data-t="s1h">Cuentas de qué se trata tu proyecto</h3>
+            <p data-t="s1p">Con eso Think4Ever tiene contexto.</p>
+          </article>
+          <article class="how-step" data-step="1">
+            <span class="how-num">2</span>
+            <h3 data-t="s2h">Sumas tu código y tus herramientas de IA</h3>
+            <p data-t="s2p">Con ese insumo se arma el plano vivo.</p>
+          </article>
+          <article class="how-step" data-step="2">
+            <span class="how-num">3</span>
+            <h3 data-t="s3h">A trabajar</h3>
+            <p data-t="s3p">Revisas sus recomendaciones y avanzas con tu proyecto.</p>
+          </article>
+        </div>
+        <div class="how-rail" aria-hidden="true"><i></i></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PREGUNTAS ============ -->
+  <section class="block" id="preguntas">
+    <p class="eyebrow" data-t="faqEyebrow">Preguntas frecuentes</p>
+    <h2 data-t="faqH2">Antes de empezar.</h2>
+    <div class="faq">
+      <details>
+        <summary data-t="q1">¿Tengo que pagar otra IA?</summary>
+        <p data-t="a1">No. Conectas el Claude, Codex o Cursor que ya usas y Think4Ever les da el contexto de tu proyecto.</p>
+      </details>
+      <details>
+        <summary data-t="q2">¿Sirve si ya tengo código?</summary>
+        <p data-t="a2">Sí. Traes tu repositorio y Think4Ever lo convierte en una vista visual y revisable del sistema.</p>
+      </details>
+      <details>
+        <summary data-t="q3">¿Cuánto cuesta?</summary>
+        <p data-t="a3">Empiezas gratis. Después no hay mensualidad: compras créditos cuando los necesitas.</p>
+      </details>
+      <details>
+        <summary data-t="q4">¿Qué es la evaporación del contexto?</summary>
+        <p data-t="a4">Es la pérdida progresiva de información importante para entender un sistema. Think4Ever guarda esa información en el plano para que ni tu equipo ni tu IA la pierdan.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ============ CIERRE ============ -->
+  <section class="block closing">
+    <h2 class="var-a" data-t="closeH2">Empieza con una frase.</h2>
+    <h2 class="var-b" data-t="closeH2b">Empieza gratis hoy.</h2>
+    <p data-t="closeP">Crea tu cuenta gratis, sin tarjeta.</p>
+    <a class="btn var-a" href="#inicio" data-focus-idea data-t="closeBtn">Escribir mi idea</a>
+    <a class="btn var-b" href="#inicio" data-focus-email data-t="accBtn">Crear cuenta gratis</a>
+  </section>
+</main>
+
+<footer class="foot">
+  <span>© 2026 Think4Ever</span>
+  <span class="proto-flag" data-t="protoFlag">Prototipo de Research. No envía datos.</span>
+</footer>
+
+<!-- Hoja que aparece al enviar la idea -->
+<div class="sheet" id="sheet" hidden>
+  <div class="sheet-scrim" data-close></div>
+  <div class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+    <button class="sheet-x" type="button" data-close aria-label="Cerrar" data-t-aria="close">×</button>
+    <h2 id="sheet-title" data-t="sheetTitle">Así empieza tu plano.</h2>
+    <p class="sheet-quote" id="sheet-quote"></p>
+
+    <!-- Adelanto del plano antes de pedir la cuenta.
+         PROTOTIPO: se arma en el navegador con palabras clave de la idea. En producción lo generaría la plataforma. -->
+    <div class="preview is-loading" id="preview" aria-live="polite">
+      <p class="preview-loading"><span class="preview-dot" aria-hidden="true"></span><span data-t="pvLoading">Armando el plano…</span></p>
+      <div class="preview-body">
+        <div class="preview-col"><h3 data-t="pvRoles">Roles</h3><ul id="pv-roles"></ul></div>
+        <div class="preview-col"><h3 data-t="pvFlows">Flujos</h3><ul id="pv-flows"></ul></div>
+        <div class="preview-col"><h3 data-t="pvScreens">Pantallas</h3><ul id="pv-screens"></ul></div>
+        <p class="preview-more"><span aria-hidden="true">🔒</span> <span data-t="pvMore">Faltan reglas, datos y criterios de aceptación.</span></p>
+      </div>
+    </div>
+
+    <p class="sheet-sub" data-t="sheetSub">Crea tu cuenta para verlo completo y editarlo.</p>
+    <div class="providers"></div>
+    <p class="fine" data-t="fineShort">Gratis, sin tarjeta. Al continuar aceptas los Términos y la Política de privacidad.</p>
+    <p class="fine sheet-login"><span data-t="accHave">¿Ya tienes una cuenta?</span> <a href="#" data-proto="login" data-t="login">Iniciar sesión</a></p>
+  </div>
+</div>
+
+<!-- Hoja para navegadores internos de Instagram y Facebook, donde Google bloquea el inicio de sesión -->
+<div class="sheet" id="sheet-inapp" hidden>
+  <div class="sheet-scrim" data-close></div>
+  <div class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="inapp-title">
+    <button class="sheet-x" type="button" data-close aria-label="Cerrar" data-t-aria="close">×</button>
+    <h2 id="inapp-title" data-t="inappTitle">Un paso más: ábrela en tu navegador.</h2>
+    <p class="sheet-sub" data-t="inappSub">Google no permite iniciar sesión dentro de Instagram o Facebook. En tu navegador entras con un toque.</p>
+    <button class="btn btn-wide" type="button" id="inapp-open" data-t="inappOpen">Abrir en mi navegador</button>
+    <button class="btn-ghost" type="button" id="inapp-copy" data-t="inappCopy">Copiar enlace</button>
+    <p class="fine" data-t="inappFine">También puedes tocar el menú ⋯ de arriba y elegir «Abrir en el navegador».</p>
+  </div>
+</div>
+
+<!-- Registro flotante: acompaña todo el scroll, en celular y en escritorio.
+     Aparece cuando el registro de arriba sale de la pantalla. -->
+<div class="float-cta" id="float-cta" hidden>
+  <span class="float-label" data-t="start">Empieza gratis</span>
+  <div class="providers providers-compact"></div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<!-- Opciones de registro: Google y correo (Microsoft y Apple, cuando el equipo de desarrollo las habilite). app.js copia este bloque en cada .providers -->
+<template id="tpl-providers">
+  <button class="prov" type="button" data-proto="google" aria-label="Google">
+    <svg viewBox="0 0 48 48" width="20" height="20" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+    <span>Google</span>
+  </button>
+  <button class="prov" type="button" data-proto="email">
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3.5 6.5h17v11h-17zm0 .5 8.5 6.5L20.500 7" fill="none" stroke="#0B1B3A" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span data-t="email">Correo</span>
+  </button>
+</template>
+
+<script src="app.js"></script>
+</body>
+</html>

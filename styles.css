@@ -1,0 +1,466 @@
+/* Think4Ever, prototipo de landing. Pensado primero para celular (390 px). */
+:root {
+  /* Mismos valores del tema claro del portal (portal.think4ever.com, variables --color-*, --radius-*, --shadow-*),
+     leidos el 12-nov. Los nombres de aqui se conservan para no tocar el resto de la hoja. */
+  --navy: #0f172a;        /* color-text */
+  --blue: #2563eb;        /* color-primary */
+  --blue-deep: #1d4ed8;   /* color-primary-hover */
+  --blue-soft: #93c5fd;   /* color-primary-muted */
+  --blue-tint: #eff6ff;   /* color-primary-light */
+  --orange: #f97316;      /* landing-orange */
+  --ink-2: #475569;       /* color-text-secondary */
+  --muted: #94a3b8;       /* color-text-muted */
+  --line: #e2e8f0;        /* color-border */
+  --paper: #ffffff;       /* color-surface */
+  --bg: #f8fafc;          /* color-bg */
+  --radius: 16px;         /* radius-lg */
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 10px 15px -3px rgba(0, 0, 0, .08), 0 4px 6px -4px rgba(0, 0, 0, .05); /* shadow-lg */
+  --ring: 0 0 0 3px rgba(37, 99, 235, .15); /* shadow-ring */
+  --gutter: 16px;
+  --ease: cubic-bezier(.4, 0, .2, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "Inter", "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--navy);
+  background: var(--bg);
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, p { margin: 0; }
+a { color: inherit; }
+button { font: inherit; color: inherit; cursor: pointer; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Fondo: gradiente suave, claro */
+.backdrop {
+  position: absolute; inset: 0 0 auto 0; height: 900px; z-index: -1; overflow: hidden;
+  background:
+    radial-gradient(60% 46% at 12% 4%, rgba(147, 197, 253, .75), transparent 70%),
+    radial-gradient(52% 40% at 96% 14%, rgba(249, 115, 22, .13), transparent 70%),
+    radial-gradient(70% 50% at 50% 62%, rgba(37, 99, 235, .10), transparent 72%),
+    linear-gradient(#ffffff, var(--bg));
+}
+
+/* Encabezado */
+.top {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px var(--gutter); max-width: 1120px; margin: 0 auto;
+}
+.logo { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; }
+.logo-word { font-size: 20px; letter-spacing: -.02em; font-weight: 400; }
+.logo-word b { font-weight: 700; }
+.top-actions { display: flex; align-items: center; gap: 10px; }
+.link-quiet { font-size: 14px; color: var(--ink-2); text-decoration: none; display: none; }
+.lang {
+  min-width: 40px; height: 34px; padding: 0 10px; border-radius: 999px; border: 1.5px solid var(--line);
+  background: transparent; font-size: 13px; font-weight: 700; color: var(--ink-2);
+}
+.lang:hover { border-color: var(--blue); color: var(--blue); }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 48px; padding: 0 22px; border: 0; border-radius: var(--radius-md);
+  background: var(--blue); color: #fff; font-weight: 700; text-decoration: none;
+  transition: background .2s, transform .2s;
+}
+.btn:hover { background: var(--blue-deep); }
+.btn:active { transform: scale(.98); }
+.btn-small { min-height: 38px; padding: 0 16px; font-size: 14px; }
+.btn-wide { width: 100%; min-height: 52px; border-radius: var(--radius-md); font-size: 16px; }
+.btn-ghost {
+  width: 100%; min-height: 46px; margin-top: 8px; border-radius: var(--radius-md);
+  border: 1.5px solid var(--line); background: transparent; font-weight: 700;
+}
+
+/* Primera pantalla */
+.hero {
+  max-width: 620px; margin: 0 auto; padding: 0 var(--gutter) 36px;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+}
+
+/* ---------- La mascota ----------
+   Los cuadros tienen fondo blanco. Con multiply el blanco desaparece y solo quedan
+   la mascota, el vidrio y las sombras sobre el fondo de la página. Sin marco ni tarjeta. */
+.mascot {
+  position: relative; width: min(100%, 320px); aspect-ratio: 16 / 9; margin-top: -8px;
+  cursor: pointer; -webkit-tap-highlight-color: transparent; outline-offset: -6px;
+}
+.mascot canvas {
+  width: 100%; height: 100%; display: block;
+  mix-blend-mode: multiply;
+  -webkit-mask-image: radial-gradient(ellipse 62% 66% at 50% 50%, #000 72%, transparent 100%);
+          mask-image: radial-gradient(ellipse 62% 66% at 50% 50%, #000 72%, transparent 100%);
+  transition: transform .18s var(--ease);
+  /* En escritorio la mascota se mueve un poco hacia el cursor (--mx y --my los pone app.js) */
+  transform: translate(calc(var(--mx, 0) * 10px), calc(var(--my, 0) * 6px));
+}
+/* Mientras se escribe la idea, la mascota reacciona */
+.mascot.is-listening canvas { animation: listen 1.3s ease-in-out infinite; }
+.mascot.is-key canvas { transform: scale(1.07); animation: none; }
+@keyframes listen { 50% { transform: translateY(-4px) scale(1.03); } }
+/* Opción 2 de la mascota: el cerebro queda en el centro y detrás cambian solas las escenas
+   (sistema, UX/UI, código, plano, construir, auditar), al ritmo del texto rotativo. */
+.scenes { display: none; }
+body[data-hero="2"] .mascot { width: 100%; max-width: 560px; cursor: default; margin-top: -4px; }
+body[data-hero="2"] .scenes { display: block; position: absolute; inset: 0; }
+body[data-hero="2"] .scenes img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  mix-blend-mode: multiply; opacity: 0; transform: scale(1.04);
+  transition: opacity .9s ease, transform 3.2s ease-out;
+  -webkit-mask-image: radial-gradient(ellipse 54% 56% at 50% 50%, #000 45%, transparent 100%);
+          mask-image: radial-gradient(ellipse 54% 56% at 50% 50%, #000 45%, transparent 100%);
+}
+body[data-hero="2"] .scenes img.is-on { opacity: 1; transform: none; }
+/* El cerebro va encima de la escena y un poco más pequeño, para que la escena se vea */
+body[data-hero="2"] .mascot canvas { position: relative; transform: scale(.78); }
+body[data-hero="2"] .mascot.is-key canvas { transform: scale(.84); }
+body[data-hero="2"] .mascot-tag { display: none; }
+
+.mascot-tag {
+  position: absolute; left: 50%; bottom: 2px; transform: translate(-50%, 6px);
+  padding: 3px 10px; border-radius: 999px; white-space: nowrap;
+  background: rgba(15, 23, 42, .88); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: .04em;
+  opacity: 0; transition: opacity .35s, transform .35s var(--ease); pointer-events: none;
+}
+.mascot.is-open .mascot-tag { opacity: 1; transform: translate(-50%, 0); }
+
+h1 {
+  font-size: clamp(30px, 8.4vw, 54px); line-height: 1.08; letter-spacing: -.03em; font-weight: 800;
+  margin-top: 4px; text-wrap: balance;
+}
+h1 em { font-style: normal; color: var(--orange); white-space: nowrap; }
+.typed-line {
+  margin-top: 8px; height: 30px; font-size: 20px; font-weight: 500; color: var(--blue);
+  white-space: nowrap; display: flex; align-items: center; justify-content: center;
+}
+.caret { width: 2px; height: 22px; margin-left: 3px; background: var(--orange); animation: caret 1s steps(1) infinite; }
+@keyframes caret { 50% { opacity: 0; } }
+
+/* Caja de idea */
+.idea {
+  width: 100%; margin-top: 14px; text-align: left;
+  background: var(--paper); border: 1.5px solid var(--line); border-radius: var(--radius);
+  box-shadow: var(--shadow); transition: border-color .2s, box-shadow .2s;
+}
+.idea:focus-within { border-color: var(--blue); box-shadow: var(--ring), var(--shadow); }
+.idea textarea {
+  display: block; width: 100%; resize: none; border: 0; outline: 0; background: transparent;
+  padding: 14px 16px 4px; font: inherit; font-size: 16px; color: var(--navy); border-radius: var(--radius);
+}
+.idea textarea::placeholder { color: #94a3b8; }
+/* Barra de la caja: los mismos controles de la caja de la plataforma y el botón de enviar */
+.idea-bar { display: flex; align-items: center; gap: 6px; padding: 4px 8px 8px; }
+.tool {
+  flex: none; width: 40px; height: 40px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--paper);
+  color: var(--ink-2); display: grid; place-items: center; transition: border-color .2s, color .2s;
+}
+.tool:hover, .tool.is-on { border-color: var(--blue); color: var(--blue); }
+.send {
+  margin-left: auto; height: 44px; padding: 0 14px 0 16px; border-radius: 12px; border: 0;
+  background: var(--blue); color: #fff; font-weight: 600; font-size: 15px; white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 6px; transition: background .2s, transform .2s;
+}
+.send:hover { background: var(--blue-deep); }
+.send:active { transform: scale(.97); }
+/* Las cuatro rutas de la página actual, debajo de la caja */
+.chips { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px; width: 100%; }
+.chip {
+  min-height: 36px; padding: 0 8px; border-radius: 10px; font-size: 13px; font-weight: 500; line-height: 1.15;
+  background: rgba(255, 255, 255, .7); color: var(--blue-deep); border: 1.5px solid var(--line);
+}
+.chip:hover { border-color: var(--blue-soft); background: var(--paper); }
+.chip.is-on { background: var(--paper); border-color: var(--blue); font-weight: 700; }
+.idea-hint { padding: 0 16px 10px; font-size: 13px; color: #B84E00; }
+.idea.shake { animation: shake .35s; }
+@keyframes shake { 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+
+/* Registro */
+.signup { width: 100%; margin-top: 12px; scroll-margin-top: 16px; }
+/* Dos variantes en la misma página. body[data-v] decide cuál se ve (A: caja de idea, B: formulario). */
+.var-a, .var-b { width: 100%; display: flex; flex-direction: column; align-items: center; }
+a.btn.var-a, a.btn.var-b { width: auto; display: inline-flex; }
+h2.var-a, h2.var-b { display: block; }
+body[data-v="a"] .var-b, body[data-v="b"] .var-a { display: none !important; }
+
+/* Variante B: formulario corto */
+.account {
+  width: 100%; margin-top: 14px; padding: 18px 16px 16px; text-align: left; scroll-margin-top: 16px;
+  background: var(--paper); border: 1.5px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow);
+}
+.account-title { font-size: 20px; margin: 0 0 12px; }
+.providers.providers-one { grid-template-columns: 1fr; }
+.or { display: flex; align-items: center; gap: 10px; margin: 14px 0 10px; font-size: 13px; color: var(--ink-2); }
+.or::before, .or::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.field-label { display: block; font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+.field {
+  width: 100%; height: 50px; padding: 0 14px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--paper);
+  font: inherit; font-size: 16px; color: var(--navy); margin-bottom: 10px;
+}
+.field:focus { outline: 0; border-color: var(--blue); box-shadow: 0 0 0 4px rgba(37, 99, 235, .14); }
+.account .idea-hint { padding: 0 0 8px; }
+.account .fine { text-align: left; }
+.perk { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 14px; font-weight: 500; }
+.perk-center { justify-content: center; }
+.signup-label { font-size: 13px; font-weight: 700; color: var(--ink-2); margin-bottom: 8px; }
+/* Las opciones de registro, en una sola línea */
+.providers { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.prov {
+  min-height: 50px; padding: 0 6px; display: flex; align-items: center; justify-content: center; gap: 8px;
+  border-radius: 14px; border: 1.5px solid var(--line); background: var(--paper);
+  font-weight: 700; font-size: 14.5px; box-shadow: 0 2px 6px rgba(15, 23, 42, .05); white-space: nowrap;
+  transition: border-color .2s, box-shadow .2s, transform .2s;
+}
+.prov svg { flex: none; }
+.prov:hover { border-color: var(--blue); box-shadow: 0 6px 18px rgba(37, 99, 235, .15); }
+.prov:active { transform: scale(.97); }
+.fine { margin-top: 10px; font-size: 12.5px; color: var(--ink-2); text-align: center; }
+
+/* Bloques de información */
+.block { max-width: 1040px; margin: 0 auto; padding: 44px var(--gutter); }
+.eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--blue); }
+h2 { font-size: clamp(24px, 6vw, 36px); line-height: 1.15; letter-spacing: -.02em; font-weight: 700; margin-top: 8px; text-wrap: balance; }
+.cards { display: grid; gap: 12px; margin-top: 22px; }
+.card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; }
+.card h3 { font-size: 18px; margin-top: 12px; }
+.card p { margin-top: 6px; color: var(--ink-2); font-size: 15px; }
+.dot { display: block; width: 14px; height: 14px; border-radius: 50%; box-shadow: 0 0 0 5px rgba(37, 99, 235, .10); }
+.dot-blue { background: var(--blue); }
+.dot-orange { background: var(--orange); box-shadow: 0 0 0 5px rgba(249, 115, 22, .14); }
+.dot-navy { background: var(--navy); box-shadow: 0 0 0 5px rgba(15, 23, 42, .08); }
+
+.mcp {
+  margin-top: 14px; padding: 18px; border-radius: var(--radius); background: var(--navy); color: #fff;
+  display: grid; gap: 14px;
+}
+.mcp h3 { font-size: 18px; }
+.mcp p { margin-top: 4px; color: #C4D2EE; font-size: 15px; }
+.tools { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.tools li { padding: 6px 12px; border-radius: 999px; background: rgba(255, 255, 255, .1); font-size: 13px; font-weight: 500; }
+
+/* ---------- Cómo funciona ----------
+   La sección mide varias pantallas. Su contenido queda fijo y el scroll mueve a la mascota
+   (cuadro por cuadro, sin marco) y desliza los tres pasos. */
+.how { height: 340vh; height: 340svh; --p: 0; }
+.how-sticky {
+  position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden;
+  max-width: 1120px; margin: 0 auto; padding: 16px var(--gutter) 84px;
+  display: flex; flex-direction: column;
+  /* El contenedor fijo aísla la mezcla: necesita su propio fondo, igual al de la página,
+     para que el blanco de los cuadros desaparezca contra él. */
+  background: var(--bg);
+}
+.how-visual { flex: 0 0 auto; width: min(100%, 44svh); aspect-ratio: 1; margin: 0 auto; }
+.how-visual canvas {
+  width: 100%; height: 100%; display: block; mix-blend-mode: multiply;
+  transform: translateY(calc((.5 - var(--p)) * 18px));
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 62%, transparent 74%);
+          mask-image: radial-gradient(circle at 50% 50%, #000 62%, transparent 74%);
+}
+.how-copy { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.how-copy h2 { font-size: clamp(22px, 5.4vw, 34px); }
+.how-steps { position: relative; flex: 0 0 132px; margin-top: 12px; }
+.how-step {
+  position: absolute; inset: 0 0 auto 0; padding-left: 52px;
+  opacity: var(--o, 0); transform: translateY(calc(var(--d, 1) * -90px));
+  will-change: transform, opacity;
+}
+.how-num {
+  position: absolute; left: 0; top: 0; width: 38px; height: 38px; border-radius: 50%;
+  display: grid; place-items: center; background: var(--blue); color: #fff; font-weight: 700; font-size: 17px;
+}
+.how-step h3 { font-size: clamp(20px, 5.2vw, 30px); line-height: 1.15; letter-spacing: -.02em; }
+.how-step p { margin-top: 6px; color: var(--ink-2); font-size: 16px; }
+.how-rail { height: 4px; border-radius: 2px; background: var(--line); overflow: hidden; }
+.how-rail i { display: block; height: 100%; background: var(--orange); transform-origin: left; transform: scaleX(var(--p)); }
+
+/* Preguntas */
+.faq { margin-top: 18px; display: grid; gap: 8px; }
+.faq details { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 0 16px; }
+.faq summary {
+  list-style: none; cursor: pointer; padding: 15px 28px 15px 0; font-weight: 700; position: relative;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; position: absolute; right: 0; top: 11px; font-size: 22px; font-weight: 400; color: var(--blue); }
+.faq details[open] summary::after { content: "–"; }
+.faq details p { padding: 0 0 16px; color: var(--ink-2); font-size: 15px; }
+
+.closing { text-align: center; padding-bottom: 96px; }
+.closing p { margin: 10px 0 20px; color: var(--ink-2); }
+
+.foot {
+  border-top: 1px solid var(--line); padding: 18px var(--gutter) 96px; font-size: 13px; color: var(--ink-2);
+  display: flex; flex-wrap: wrap; gap: 6px 16px; justify-content: space-between; max-width: 1120px; margin: 0 auto;
+}
+.proto-flag { color: #B84E00; }
+
+/* Registro flotante: acompaña todo el scroll */
+.float-cta {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 10;
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px var(--gutter) calc(10px + env(safe-area-inset-bottom));
+  background: rgba(246, 249, 255, .94); backdrop-filter: blur(10px); border-top: 1px solid var(--line);
+  animation: up .3s var(--ease);
+}
+.float-cta[hidden] { display: none; }
+.float-label { flex: none; width: 52px; font-size: 13px; font-weight: 700; line-height: 1.15; color: var(--navy); }
+.providers-compact { flex: 1; gap: 6px; }
+.providers-compact .prov { min-height: 46px; font-size: 13px; gap: 6px; border-radius: 12px; }
+
+/* Hojas */
+.sheet { position: fixed; inset: 0; z-index: 20; display: grid; align-items: end; }
+.sheet[hidden] { display: none; }
+.sheet-scrim { position: absolute; inset: 0; background: rgba(15, 23, 42, .38); animation: fade .25s; }
+.sheet-panel {
+  position: relative; background: var(--paper); border-radius: 24px 24px 0 0; padding: 26px var(--gutter) 28px;
+  width: 100%; max-width: 480px; margin: 0 auto; animation: up .35s var(--ease);
+}
+.sheet-panel h2 { font-size: 24px; margin: 0 32px 0 0; }
+.sheet-quote {
+  margin-top: 12px; padding: 10px 14px; border-left: 3px solid var(--orange); background: #FFF7F0;
+  border-radius: 0 10px 10px 0; font-size: 15px; overflow-wrap: anywhere;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.sheet-sub { margin: 12px 0 16px; color: var(--ink-2); }
+
+/* Adelanto del plano */
+.preview { margin-top: 12px; border: 1px solid var(--line); border-radius: 14px; background: #FAFCFF; padding: 12px 14px; min-height: 148px; }
+.preview-loading { display: none; align-items: center; gap: 10px; color: var(--ink-2); font-size: 15px; min-height: 122px; justify-content: center; }
+.preview.is-loading .preview-loading { display: flex; }
+.preview.is-loading .preview-body { display: none; }
+.preview-dot {
+  width: 16px; height: 16px; border-radius: 50%; background: var(--blue);
+  box-shadow: inset 0 0 0 4px var(--blue), inset 0 0 0 6px #fff; animation: pvpulse .7s ease-in-out infinite alternate;
+}
+@keyframes pvpulse { to { transform: scale(1.35); } }
+.preview-body { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px 10px; }
+.preview-col h3 { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--blue); }
+.preview-col ul { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 5px; }
+.preview-col li {
+  font-size: 12.5px; line-height: 1.2; padding: 6px 8px; border-radius: 8px; background: var(--paper);
+  border: 1px solid var(--line); opacity: 0; transform: translateY(6px); animation: rise .35s var(--ease) forwards;
+}
+.preview-col:nth-child(2) li { animation-delay: .12s; }
+.preview-col:nth-child(3) li { animation-delay: .24s; border-color: #FFD3B0; background: #FFF7F0; }
+.preview-more { grid-column: 1 / -1; font-size: 12.5px; color: var(--ink-2); padding-top: 4px; border-top: 1px dashed var(--line); }
+@keyframes rise { to { opacity: 1; transform: none; } }
+.sheet-x { position: absolute; right: 10px; top: 10px; width: 40px; height: 40px; border: 0; background: transparent; font-size: 26px; color: var(--ink-2); border-radius: 50%; }
+@keyframes fade { from { opacity: 0; } }
+@keyframes up { from { transform: translateY(40px); opacity: 0; } }
+
+.toast {
+  position: fixed; left: 50%; bottom: 84px; transform: translateX(-50%); z-index: 30;
+  width: max-content; max-width: calc(100vw - 32px);
+  background: var(--navy); color: #fff; padding: 12px 16px; border-radius: 12px; font-size: 14px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, .3); animation: up .3s var(--ease);
+}
+.toast[hidden] { display: none; }
+
+:focus-visible { outline: 3px solid rgba(37, 99, 235, .5); outline-offset: 2px; }
+.idea textarea:focus-visible { outline: 0; }
+
+/* Tableta y escritorio */
+@media (min-width: 720px) {
+  :root { --gutter: 28px; }
+  .link-quiet { display: inline; }
+  .hero { padding-top: 8px; padding-bottom: 56px; }
+  .mascot { width: 400px; }
+  .typed-line { font-size: 24px; height: 36px; margin-top: 12px; }
+  .caret { height: 26px; }
+  .idea { margin-top: 22px; }
+  .signup { max-width: 460px; }
+  .cards { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .mcp { grid-template-columns: 1fr auto; align-items: center; padding: 22px 26px; }
+  .block { padding: 64px var(--gutter); }
+  .float-cta {
+    left: auto; right: 24px; bottom: 24px; width: 420px; border: 1px solid var(--line); border-radius: 18px;
+    padding: 10px 12px 10px 16px; background: rgba(255, 255, 255, .96);
+    box-shadow: 0 16px 40px rgba(15, 23, 42, .18);
+  }
+  .float-label { width: auto; font-size: 14px; }
+  .chips { grid-template-columns: repeat(4, 1fr); }
+  .send { padding: 0 20px; }
+  .account { max-width: 460px; }
+  .hero { max-width: 680px; }
+  .toast { bottom: 108px; }
+  .closing { padding-bottom: 56px; }
+  .foot { padding-bottom: 28px; }
+  .sheet { align-items: center; }
+  .sheet-panel { border-radius: 24px; padding: 30px; }
+
+  /* Cómo funciona: texto a la izquierda, mascota a la derecha */
+  .how-sticky { flex-direction: row-reverse; align-items: center; gap: 40px; padding-bottom: 16px; }
+  .how-visual { width: min(48%, 78svh); margin: 0; }
+  .how-copy { flex: 1; height: min(60svh, 460px); }
+  .how-steps { margin-top: 28px; flex: 1; }
+  .how-copy { justify-content: center; }
+  .how-step { transform: translateY(calc(var(--d, 1) * -130px)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0s !important; transition-duration: .01ms !important; }
+}
+
+/* ===== Una sola pantalla (pedido de Dirección, 12-nov en la noche) =====
+   Desde el logo hasta los botones de Google y correo cabe sin desplazar, en celular y en escritorio.
+   Lo que cede es la animación: su alto sale del alto de la pantalla (svh), no del ancho. */
+.top { padding-top: 8px; padding-bottom: 4px; }
+.hero { padding-bottom: 20px; }
+.mascot, body[data-hero="2"] .mascot {
+  width: auto; max-width: 100%; height: clamp(80px, 21svh, 280px); aspect-ratio: 16 / 9; margin-top: 0;
+}
+h1 { font-size: clamp(25px, min(8vw, 5.8svh), 52px); margin-top: 0; }
+.typed-line { margin-top: 2px; height: 26px; font-size: clamp(16px, 2.5svh, 22px); }
+.caret { height: 18px; }
+.idea { margin-top: 8px; }
+.idea textarea { padding-top: 10px; }
+.chips { margin-top: 6px; }
+.chip { min-height: 32px; }
+.signup { margin-top: 8px; }
+/* Las paginas de HubSpot traen en su encabezado un estilo viejo de la caja (rejilla con los tres
+   botones y 120 px de alto minimo). Estas reglas, mas especificas, lo dejan sin efecto. */
+body .idea { display: block; padding: 0; }
+body .idea textarea { height: auto; min-height: 0; padding: 10px 16px 4px; }
+body .idea .idea-bar { display: flex; }
+body .idea .send { margin: 0 0 0 auto; }
+body .idea .idea-hint { padding: 0 16px 10px; }
+@media (min-width: 720px) {
+  .hero { padding-top: 0; }
+  .idea { margin-top: 12px; }
+  /* En escritorio sobra alto: la animación puede ser más grande sin sacar los botones de la pantalla */
+  .mascot, body[data-hero="2"] .mascot { height: clamp(110px, 30svh, 320px); }
+}
+
+/* ===== Jerarquía de la primera pantalla (diagnóstico de Research, 12-nov) =====
+   Una sola acción principal: escribir la idea y "Crear mi plano". Lo demás sigue en pantalla,
+   pero con menos peso, para que no compitan tres botones de registro a la vez. */
+@media (max-width: 719px) {
+  .top .btn-small { display: none; }   /* repetía el registro que ya está a la vista */
+  .link-quiet { display: inline; }
+}
+body[data-v="a"] .chip {
+  min-height: 28px; border-width: 1px; border-radius: 999px; background: transparent;
+  font-size: 12.5px; color: var(--ink-2);
+}
+body[data-v="a"] .chip.is-on { background: var(--blue-tint); color: var(--blue-deep); border-color: var(--blue-soft); }
+body[data-v="a"] .signup { margin-top: 10px; }
+body[data-v="a"] .signup-label { font-weight: 500; margin-bottom: 6px; }
+body[data-v="a"] .signup .prov { min-height: 42px; font-size: 14px; box-shadow: none; }
+
+/* ===== Aprovechar el alto (captura de iPhone, 12-nov en la noche) =====
+   La primera pantalla ocupa todo el alto visible y la animación crece con lo que sobre, en vez de
+   dejar un hueco debajo de los créditos. En pantallas bajas se encoge hasta 80 px. */
+.hero { min-height: calc(100svh - 50px); }
+.mascot, body[data-hero="2"] .mascot {
+  flex: 1 1 0; height: auto; min-height: 80px;
+  max-height: min(300px, calc((100vw - 2 * var(--gutter)) * .5625));
+}
+@media (min-width: 720px) {
+  .mascot, body[data-hero="2"] .mascot { height: auto; max-height: 340px; }
+}

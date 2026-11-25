@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>think4ever: escribe tu idea y recibe el plan completo de tu app (propuesta)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Propuesta de rediseño de Research, 23-nov-2026. Prototipo: no envía datos.
+     El español está en el HTML; el inglés en app.js (objeto EN). ?lang=en | ?lang=es.
+     Cada elemento con data-d="N" responde a la decisión N del reporte. ?porque=1 las muestra sobre la página. -->
+
+<header class="top" data-d="1">
+  <a class="logo" href="#inicio" aria-label="think4ever">
+    <svg viewBox="0 0 60 34" width="42" height="24" aria-hidden="true">
+      <path fill="#1D63E0" d="M2.345 0h36.638a7.327 7.327 0 0 1 7.328 7.328 7.327 7.327 0 0 1-7.328 7.327H2.345q-2.344 0-2.345-2.344V2.345Q.001.001 2.345 0"/>
+      <path fill="#B7CCF4" d="M20.81 19.345H57.45q2.343.001 2.344 2.345v9.965Q59.793 34 57.45 34H20.81a7.326 7.326 0 0 1-7.328-7.327 7.326 7.326 0 0 1 7.328-7.328"/>
+      <circle fill="#fff" cx="38.983" cy="7.328" r="4.69"/><circle fill="#FF7A1A" cx="38.983" cy="7.328" r="2.931"/>
+      <circle fill="#fff" cx="20.81" cy="26.673" r="4.69"/><circle fill="#0B1B3A" cx="20.81" cy="26.673" r="2.931"/>
+    </svg>
+    <span class="logo-word">think<b>4ever</b></span>
+  </a>
+  <nav class="top-actions">
+    <button class="lang" type="button" id="lang" aria-label="Change language / Cambiar idioma">EN</button>
+    <a class="link-quiet" href="#" data-proto="login" data-t="login">Iniciar sesión</a>
+    <a class="top-cta" id="top-register" href="https://think4ever.com/#start" data-t="topCta">Crear cuenta</a>
+  </nav>
+</header>
+
+<main id="inicio">
+
+  <!-- ============ PRIMERA PANTALLA ============ -->
+  <section class="hero">
+    <div class="glow" aria-hidden="true"></div>
+
+    <p class="pill" data-d="21"><span class="pill-dot" aria-hidden="true"></span><span data-t="pill">Funciona con la IA que ya usas para programar</span></p>
+
+    <h1 data-d="2" data-t="h1">Escribe tu idea. Recibe <em>el plan completo</em> de tu app.</h1>
+    <p class="sub" data-d="3" data-t="sub">Pantallas, quién la usa y qué pasa en cada paso. Con ese plan, tu IA construye sin improvisar.</p>
+
+    <form class="idea" id="idea-form" novalidate data-d="4">
+      <label class="sr-only" for="idea" data-t="ideaLabel">Describe tu idea</label>
+      <textarea id="idea" name="idea" rows="2" maxlength="4000" data-t-ph="ideaPh"
+        placeholder="Cuéntanos tu idea en una frase"></textarea>
+      <div class="idea-bar">
+        <p class="free" data-d="6"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-t="freeHero">Gratis y sin tarjeta. Solo pedimos tu correo.</span></p>
+        <button class="send" type="submit" data-d="5">
+          <span data-t="send">Crear mi cuenta gratis</span>
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14m0 0-6-6m6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <p class="idea-hint" id="idea-hint" hidden data-t="ideaHint">Escribe tu idea o toca uno de los ejemplos.</p>
+    </form>
+
+    <div class="examples" id="examples" role="group" aria-label="Ejemplos" data-t-aria="exAria">
+      <span class="examples-label" data-t="exLabel">¿Sin idea? Toca una:</span>
+      <button type="button" class="ex is-on" data-ex="barberia" data-t="exBarber">Turnos de barbería</button>
+      <button type="button" class="ex" data-ex="grado" data-t="exGrado">Mi proyecto de grado</button>
+      <button type="button" class="ex" data-ex="tienda" data-t="exTienda">Mi tienda en línea</button>
+    </div>
+
+    <!-- Videos cortos del producto: acción secundaria, al lado de la caja sin competir con ella.
+         Nada de YouTube se carga hasta que alguien abre el popup (especificación del equipo de desarrollo, 24-nov). -->
+    <button type="button" class="how-btn" id="how-open" aria-haspopup="dialog" aria-controls="how">
+      <span class="how-play" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg></span>
+      <span data-t="howBtn">Mira cómo funciona</span>
+    </button>
+
+    <!-- El producto a la vista y en vivo: el plano se arma aquí mismo, con el ejemplo o con la idea de la persona.
+         Los tres ejemplos son planes reales, generados por la plataforma el 23-nov-2026 (extracto).
+         Con la idea propia del visitante, el inicio del plan sigue siendo una vista previa. -->
+    <aside class="plan" id="plan" aria-live="polite" data-d="7">
+      <header class="plan-head">
+        <span class="plan-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="plan-title"><span id="plan-kind" data-t="planOf">Ejemplo real:</span> <b id="plan-name">Turnos de barbería</b></span>
+        <span class="plan-live" id="plan-live" hidden><i aria-hidden="true"></i><span data-t="pvLoading">Armando tu plan…</span></span>
+      </header>
+      <div class="plan-body">
+        <div class="plan-col"><h3 data-t="pvScreens">Pantallas</h3><ul id="pl-screens"></ul></div>
+        <div class="plan-col"><h3 data-t="pvRoles">Quién la usa</h3><ul id="pl-roles"></ul></div>
+        <div class="plan-col"><h3 data-t="pvFlows">Qué pasa</h3><ul id="pl-flows"></ul></div>
+      </div>
+      <p class="plan-rule" id="plan-rule"><b data-t="pvRule">Una regla:</b> <span id="pl-rule"></span></p>
+      <p class="plan-foot" id="plan-foot" data-t="planFoot">Así se ve tu app antes de escribir una sola línea de código.</p>
+
+      <!-- Con la idea de la persona: lo que falta queda a la vista y bloqueado, y ahí mismo se pide la cuenta -->
+      <div class="plan-gate" id="plan-gate" hidden data-d="9">
+        <ul class="locked" aria-hidden="true">
+          <li><span data-t="lkRules">Las reglas de tu app</span><i></i></li>
+          <li><span data-t="lkData">Los datos que guarda</span><i></i></li>
+          <li><span data-t="lkDetail">El detalle de cada pantalla</span><i></i></li>
+        </ul>
+        <p class="gate-progress"><span class="bar"><i></i></span><span data-t="gateProg">Tu plan va en 3 de 6 partes</span></p>
+        <p class="gate-sub" data-t="sheetSub">Crea tu cuenta gratis para completarlo y guardarlo.</p>
+        <!-- La landing no hace el registro: un solo botón lleva al registro del portal, con los UTM de la visita
+             (decisión de David, 24-nov). Sin formulario de correo ni botón de Google en la página. -->
+        <a class="btn btn-wide gate-go" id="gate-register" href="https://think4ever.com/#start">
+          <span data-t="gateGo">Crear mi cuenta gratis</span>
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14m0 0-6-6m6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <p class="fine" data-t="fine">Gratis, sin tarjeta y sin spam. Al continuar aceptas los Términos y la Política de privacidad.</p>
+        <p class="fine who" data-t="who">think4ever es una empresa de Canadá, con equipo en Colombia.</p>
+      </div>
+    </aside>
+
+    <ul class="answers" data-d="23">
+      <li><b data-t="an1b">¿Qué recibo?</b> <span data-t="an1">El plan completo de tu app, antes de escribir código.</span></li>
+      <li><b data-t="an2b">¿Y si ya uso una IA?</b> <span data-t="an2">No la reemplaza. Le da el plan para que construya bien.</span></li>
+      <li><b data-t="an3b">¿Cuánto cuesta?</b> <span data-t="an3">Empezar es gratis, con 500 créditos y sin tarjeta.</span></li>
+    </ul>
+  </section>
+
+  <!-- ============ 1. QUÉ RECIBES ============ -->
+  <section class="block" id="que-recibes" data-d="11">
+    <p class="eyebrow" data-t="getEyebrow">Cómo funciona</p>
+    <h2 data-t="getH2">Cuando tu IA tiene el plan completo, construye lo que pediste.</h2>
+    <ol class="steps">
+      <li><span class="num">1</span><div><h3 data-t="st1h">Cuentas tu idea</h3><p data-t="st1p">En una frase, como se la contarías a un amigo. Si falta algo, think4ever te lo pregunta con opciones para elegir.</p></div></li>
+      <li><span class="num">2</span><div><h3 data-t="st2h">Ves el plan de tu app</h3><p data-t="st2p">Las pantallas, quién la usa y qué pasa en cada paso. Lo cambias hasta que sea la app que quieres.</p></div></li>
+      <li><span class="num">3</span><div><h3 data-t="st3h">Tu IA la construye</h3><p data-t="st3p">Conectas la IA que ya usas y construye siguiendo tu plan, paso por paso.</p></div></li>
+    </ol>
+  </section>
+
+  <!-- ============ 2. SI YA USAS UNA IA ============ -->
+  <section class="block" id="diferencia" data-d="12">
+    <p class="eyebrow" data-t="difEyebrow">¿Ya usas una IA?</p>
+    <h2 data-t="difH2">No es otra IA que pagar. Es el plan que le falta a la tuya.</h2>
+    <div class="versus">
+      <article class="vs vs-a">
+        <h3 data-t="vsAh">Solo con tu IA</h3>
+        <ul>
+          <li data-t="vsA1">Le pides una app y arranca a escribir código sin preguntarte nada.</li>
+          <li data-t="vsA2">A mitad de camino se le olvida lo que ya habían acordado.</li>
+          <li data-t="vsA3">Terminas explicando lo mismo una y otra vez.</li>
+        </ul>
+      </article>
+      <article class="vs vs-b">
+        <h3 data-t="vsBh">Con think4ever y tu IA</h3>
+        <ul>
+          <li data-t="vsB1">Ves tu app completa antes de gastar tiempo construyéndola.</li>
+          <li data-t="vsB2">El plan guarda todo lo que decidiste. No se le olvida.</li>
+          <li data-t="vsB3">Tu IA construye siguiendo el plan, con lo que ya pagas.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ 3. PRECIO ============ -->
+  <section class="block" id="precio" data-d="13">
+    <p class="eyebrow" data-t="prEyebrow">Cuánto cuesta</p>
+    <h2 data-t="prH2">Empiezas gratis. Pagas solo si quieres seguir.</h2>
+    <ul class="facts">
+      <li><b data-t="pr1b">Sin tarjeta.</b> <span data-t="pr1">Creas tu cuenta y ves tu plan sin dar datos de pago.</span></li>
+      <li><b data-t="pr2b">500 créditos de regalo.</b> <span data-t="pr2">Vienen con el plan gratis, una sola vez, para tu primer proyecto.</span></li>
+      <li><b data-t="pr3b">¿Qué es un crédito?</b> <span data-t="pr3">Lo que gasta think4ever cada vez que trabaja en tu plan.</span></li>
+      <li><b data-t="pr4b">¿Y después?</b> <span data-t="pr4">No hay mensualidad. Compras más créditos solo si los necesitas.</span></li>
+    </ul>
+  </section>
+
+  <!-- ============ 4. CONFIANZA ============ -->
+  <section class="block" id="confianza" data-d="14">
+    <p class="eyebrow" data-t="trEyebrow">Quién está detrás</p>
+    <h2 data-t="trH2">Tu idea queda contigo.</h2>
+    <p class="lead" data-t="trLead">Lo que escribes y tu plan son solo tuyos.</p>
+    <ul class="facts">
+      <li><b data-t="tr1b">Queda en tu cuenta.</b> <span data-t="tr1">Tu idea y tu plan se guardan ahí, para que sigas cuando quieras.</span></li>
+      <li><b data-t="tr2b">Cero spam.</b> <span data-t="tr2">Tu correo es para entrar a tu cuenta. Nada más.</span></li>
+      <li><b data-t="tr3b">Te vas cuando quieras.</b> <span data-t="tr3">Sin contratos ni cobros automáticos.</span></li>
+      <li><b data-t="tr4b">Quién está detrás.</b> <span data-t="tr4">think4ever es una empresa de Canadá, con equipo en Colombia.</span></li>
+    </ul>
+  </section>
+
+  <!-- ============ 5. PREGUNTAS ============ -->
+  <section class="block" id="preguntas" data-d="15">
+    <p class="eyebrow" data-t="faqEyebrow">Preguntas frecuentes</p>
+    <h2 data-t="faqH2">Lo que nos preguntan antes de empezar.</h2>
+    <div class="faq">
+      <details><summary data-t="q1">Ya pago ChatGPT o Claude. ¿Toca pagar otra cosa?</summary><p data-t="a1">No. Empiezas gratis y sin tarjeta. think4ever no es otra IA: le da el plan a la que ya usas para programar.</p></details>
+      <details><summary data-t="q2">¿Funciona en el celular?</summary><p data-t="a2">Sí. Escribes tu idea y ves tu plan desde el celular.</p></details>
+      <details><summary data-t="q3">¿Me hace la app completa?</summary><p data-t="a3">Te entrega el plan completo de tu app. Con ese plan, la IA que ya usas la construye y tú ves cada paso.</p></details>
+      <details><summary data-t="q4">¿Tengo que saber programar?</summary><p data-t="a4">No. Escribes tu idea con tus palabras y ves el plan de tu app en pantallas y pasos, sin una línea de código.</p></details>
+      <details><summary data-t="q5">¿Y si ya tengo una app a medias?</summary><p data-t="a5">También sirve. Traes tu código y think4ever te muestra cómo está armada y qué le falta.</p></details>
+    </div>
+  </section>
+
+  <!-- ============ CIERRE ============ -->
+  <section class="block closing">
+    <h2 data-t="closeH2">Tu app empieza con una frase.</h2>
+    <a class="btn" href="#inicio" data-focus-idea data-t="send">Crear mi cuenta gratis</a>
+    <p class="free free-center"><span data-t="free">Gratis para empezar. Sin tarjeta.</span></p>
+    <p class="also" data-d="20"><span data-t="alsoCode">¿Ya tienes una app a medias?</span> <a href="#" data-proto="code" data-t="alsoCodeA">Trae tu código</a></p>
+    <p class="also" data-d="19"><span data-t="alsoEb">¿Quieres construir con nosotros?</span> <a href="#" data-proto="eb" data-t="alsoEbA">Conoce Early Builders</a></p>
+  </section>
+</main>
+
+<footer class="foot">
+  <span>© 2026 think4ever</span>
+  <span class="proto-flag" data-t="protoFlag">Propuesta de Research. No envía datos.</span>
+  <button class="why-toggle" type="button" id="why-toggle" data-t="whyBtn">Ver por qué de cada decisión</button>
+</footer>
+
+<!-- Barra fija: la misma acción única, cuando la caja sale de la pantalla -->
+<div class="float-cta" id="float-cta" hidden>
+  <a class="btn btn-wide" id="float-register" href="https://think4ever.com/#start" data-t="gateGo">Crear mi cuenta gratis</a>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<!-- Modo "por qué": panel con la decisión y el finding de cada elemento marcado -->
+<aside class="why" id="why" hidden>
+  <header><b id="why-num"></b><button type="button" id="why-close" aria-label="Cerrar">×</button></header>
+  <p class="why-dec" id="why-dec"></p>
+  <p class="why-find" id="why-find"></p>
+  <p class="why-hoy" id="why-hoy"></p>
+  <p class="why-src" id="why-src"></p>
+</aside>
+
+<!-- Popup "Mira cómo funciona". El iframe de YouTube se crea al abrir o al cambiar de categoría y se destruye
+     al cerrar, para que el video pare. Las categorías sin video dicen "Pronto" y no tienen reproductor. -->
+<dialog class="how" id="how" aria-modal="true" aria-labelledby="how-title">
+  <div class="how-box">
+    <header class="how-head">
+      <h2 id="how-title" data-t="howTitle">Mira cómo funciona</h2>
+      <button type="button" class="how-x" id="how-close" aria-label="Cerrar" data-t-aria="howClose">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+      </button>
+    </header>
+    <div class="how-tabs" role="tablist" aria-label="Categorías de videos" data-t-aria="howTabsAria">
+      <button type="button" class="how-tab" role="tab" id="how-tab-scratch" data-how="scratch" aria-controls="how-panel" aria-selected="true">
+        <span class="how-tab-t" data-t="howC1">Construir desde cero</span>
+        <span class="how-tab-s">Design2Code · 2:55</span>
+      </button>
+      <button type="button" class="how-tab" role="tab" id="how-tab-code" data-how="code" aria-controls="how-panel" aria-selected="false" tabindex="-1">
+        <span class="how-tab-t" data-t="howC2">Seguir con tu código y analizarlo</span>
+        <span class="how-tab-s">Code2Design · 2:39</span>
+      </button>
+      <button type="button" class="how-tab" role="tab" id="how-tab-hardening" data-how="hardening" aria-controls="how-panel" aria-selected="false" tabindex="-1">
+        <span class="how-tab-t" data-t="howC3">Preparar tu app para producción</span>
+        <span class="how-tab-s"><span class="how-badge" data-t="howSoon">Pronto</span></span>
+      </button>
+      <button type="button" class="how-tab" role="tab" id="how-tab-gap" data-how="gap" aria-controls="how-panel" aria-selected="false" tabindex="-1">
+        <span class="how-tab-t" data-t="howC4">Ver qué le falta a tu app</span>
+        <span class="how-tab-s"><span class="how-badge" data-t="howSoon">Pronto</span></span>
+      </button>
+    </div>
+    <div class="how-panel" id="how-panel" role="tabpanel" aria-labelledby="how-tab-scratch">
+      <div class="how-player" id="how-player"></div>
+      <div class="how-soon" id="how-soon" hidden>
+        <span class="how-badge" data-t="howSoon">Pronto</span>
+        <p class="how-soon-h" data-t="howSoonH">Este video viene pronto.</p>
+        <p class="how-soon-p" data-t="howSoonP">Mientras tanto, mira cómo construir una app desde cero.</p>
+        <button type="button" class="how-soon-go" id="how-soon-go" data-t="howSoonBtn">Ir a Construir desde cero</button>
+      </div>
+      <p class="how-note" id="how-note" data-t="howMuted">El video empieza sin sonido. Actívalo con el botón de volumen.</p>
+    </div>
+  </div>
+</dialog>
+
+<!-- Registro en la landing (24-nov, 5:00 p. m.): correo y código, o Google, directo al portal -->
+<dialog class="su" id="su" aria-labelledby="su-title">
+  <div class="su-box">
+    <button type="button" class="su-x" id="su-close" aria-label="Cerrar" data-t-aria="howClose">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+    </button>
+    <div class="su-step" id="su-s1">
+      <h2 id="su-title" data-t="suTitle">Crea tu cuenta gratis</h2>
+      <p class="su-sub" data-t="suSub">Gratis y sin tarjeta. Entras directo a tu espacio de trabajo.</p>
+      <p class="su-idea" id="su-idea" hidden><span data-t="suIdea">Tu idea:</span> <b id="su-idea-t"></b></p>
+      <a class="su-google" id="su-google" href="https://portal.think4ever.com/?login=google">
+        <svg viewBox="0 0 48 48" width="20" height="20" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>
+        <span data-t="suGoogle">Continuar con Google</span>
+      </a>
+      <p class="su-or"><span data-t="suOr">o con tu correo</span></p>
+      <form id="su-form" novalidate>
+        <label class="sr-only" for="su-email" data-t="suEmailL">Correo</label>
+        <input id="su-email" type="email" autocomplete="email" inputmode="email" placeholder="tu@correo.com" data-t-ph="suEmailPh">
+        <label class="su-check"><input type="checkbox" id="su-eula"> <span data-t="suEula">Acepto el <a href="https://portal.think4ever.com/legal.html" target="_blank" rel="noopener">EULA, la Política de privacidad y la Política de uso aceptable</a></span></label>
+        <label class="su-check"><input type="checkbox" id="su-news"> <span data-t="suNews">Quiero recibir novedades del producto</span></label>
+        <p class="su-err" id="su-err1" role="alert" hidden></p>
+        <button class="btn btn-wide" type="submit" id="su-go"><span data-t="suGo">Crear mi cuenta</span></button>
+      </form>
+    </div>
+    <div class="su-step" id="su-s2" hidden>
+      <h2 data-t="suCodeT">Revisa tu correo</h2>
+      <p class="su-sub"><span data-t="suCodeP">Te enviamos un código de 6 dígitos a</span> <b id="su-email-t"></b></p>
+      <form id="su-code-form" novalidate>
+        <input id="su-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000" aria-label="Código">
+        <p class="su-err" id="su-err2" role="alert" hidden></p>
+        <button class="btn btn-wide" type="submit" id="su-verify"><span data-t="suVerify">Entrar a mi cuenta</span></button>
+      </form>
+      <p class="su-links"><button type="button" id="su-resend" data-t="suResend">Enviar otro código</button> · <button type="button" id="su-back" data-t="suBack">Usar otro correo</button></p>
+    </div>
+    <div class="su-step" id="su-s3" hidden>
+      <h2 id="su-done" data-t="suDoneT">Listo. Abriendo tu espacio de trabajo…</h2>
+    </div>
+  </div>
+</dialog>
+
+<script src="decisiones.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

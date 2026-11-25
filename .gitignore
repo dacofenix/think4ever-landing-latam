@@ -1,0 +1,9 @@
+# Entregas empaquetadas, respaldos y capturas: no hacen parte del código
+*.zip
+respaldo-antes-de-unificar-2026-11-12/
+capturas/
+capturas*.png
+# Imágenes originales sin optimizar (126 MB). Las optimizadas están en assets/
+assets/originales/
+__pycache__/
+.DS_Store
