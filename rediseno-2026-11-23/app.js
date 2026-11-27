@@ -28,6 +28,7 @@
     topCta: 'Sign up',
     suTitle: 'Create your free account', suSub: 'Free, no credit card. You go straight to your workspace.',
     suIdea: 'Your idea:', suGoogle: 'Continue with Google', suOr: 'or with your email', suEmailL: 'Email', suEmailPh: 'you@email.com',
+    footPrivacy: '<a href="https://think4ever.com/privacy-policy/" target="_blank" rel="noopener">Privacy Policy</a>',
     suEula: 'I accept the <a href="https://portal.think4ever.com/legal.html" target="_blank" rel="noopener">EULA, Privacy Policy and Acceptable Use Policy</a>',
     suNews: 'Send me product news and updates', suGo: 'Create my account',
     suCodeT: 'Check your email', suCodeP: 'We sent a 6-digit code to', suVerify: 'Go to my account',

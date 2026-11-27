@@ -1,6 +1,6 @@
 # Landing de Research conectada a la API: versión del 12 de noviembre
 
-Parte del paquete de David Stephan (`t4e-landing-research-api-a-b.zip`, la versión publicada en HubSpot el 11 de noviembre) y le suma los cambios de Research del 12 de noviembre. El registro, la medición y la plantilla única para A y B quedan como él los dejó.
+Parte del paquete de Publicidad (`t4e-landing-research-api-a-b.zip`, la versión publicada en HubSpot el 11 de noviembre) y le suma los cambios de Research del 12 de noviembre. El registro, la medición y la plantilla única para A y B quedan como estaban en ese paquete.
 
 ## Qué cambia frente a lo publicado
 
@@ -43,5 +43,5 @@ En el navegador de escritorio, en modo demostración: caja de idea (guarda la el
 
 - Un registro real de principio a fin en las dos variantes, con un correo nuevo, ya publicada la plantilla.
 - Verla en un teléfono real y dentro del navegador de Instagram y Facebook.
-- Visto bueno de Nury a la línea legal.
+- Visto bueno de Dirección a la línea legal.
 - Que el portal abra en tema claro cuando la persona llega desde la landing. Hoy abre oscuro y no hay un parámetro para pedirlo; es un cambio del equipo de desarrollo.

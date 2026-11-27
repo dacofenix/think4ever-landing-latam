@@ -7,7 +7,7 @@ Parte de los archivos del prototipo (../index.html, ../styles.css, ../app.js) y 
 
 Cambios frente al prototipo:
   - Titular: el que está publicado hoy ("Tu idea o tu código, en un plano vivo"). El de la prueba de titulares
-    se pone después de la reunión con Dirección del 24-nov (Sunil pidió no cambiarlo antes).
+    se pone después de la reunión con Dirección del 24-nov (Dirección pidió no cambiarlo antes).
   - Enlaces reales: iniciar sesión (portal), "Trae tu código" (registro) y "Conoce Early Builders" (Developer Network).
   - Sin modo "por qué", sin aviso de prototipo y sin comentarios internos (HTML sin comentarios, JS y CSS minificados).
   - La hoja de estilos va después de {{ standard_header_includes }} y neutraliza el estilo de la caja de idea
@@ -109,7 +109,7 @@ FIX = [  # (clave, español en el HTML, español nuevo, inglés en app.js, ingl�
     ('tr2', 'Tu correo es para entrar a tu cuenta. Nada más.', 'Solo te escribimos sobre tu cuenta y lo que tú aceptes.',
            'Your email is for signing in to your account. Nothing else.', 'We only email you about your account and what you opt into.'),
     ('alsoEbA', 'Conoce Early Builders', 'Conoce el Developer Network', 'Meet Early Builders', 'Meet the Developer Network'),
-    # 24-nov, reunión con Dirección (5:40 p. m.): Sunil aprueba la versión 5 en español. Subtítulo tal cual se probó.
+    # 24-nov, reunión con Dirección (5:40 p. m.): Dirección aprueba la versión 5 en español. Subtítulo tal cual se probó.
     ('sub', 'Pantallas, quién la usa y qué pasa en cada paso. Con ese plan, tu IA construye sin improvisar.',
             'Cuéntala en tus palabras. Think4Ever te pregunta lo que falta, la diseña contigo y la construye.',
             'Screens, who uses it and what happens at each step. With that plan, your AI builds without improvising.',

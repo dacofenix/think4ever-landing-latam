@@ -7,6 +7,7 @@ Repositorio compartido del equipo de Research para editar la landing de LATAM.
 1. Clonar el repositorio y crear una rama por cambio (`git checkout -b titular-nuevo`).
 2. Editar y revisar en local: `python -m http.server 3018` desde la raíz y abrir `http://localhost:3018/rediseno-2026-11-23/`.
 3. Subir la rama y abrir un pull request. Otra persona del equipo lo revisa antes de unirlo a `main`.
+   Sin permiso de edición: hacer un fork del repositorio, subir la rama al fork y abrir el pull request hacia `main`. El permiso de edición directa se pide a quien administra el repositorio.
 4. Publicar: la página vive en HubSpot. `rediseno-2026-11-23/hubspot-seo-2026-11-25/build.py` (y antes `rediseno-2026-11-23/hubspot/build.py`) genera el archivo `dist/rediseno.hubl.html` que se pega en la página de HubSpot. Unir a `main` no publica nada por sí solo.
 
 ## Qué hay en cada carpeta
@@ -26,7 +27,7 @@ Prototipo para conversar el rediseño de la landing. No es la página oficial, n
 ## Cómo se corre
 
 ```bash
-python -m http.server 3018 --directory "C:\Users\dacof\Downloads\t4e-landing-mvp"
+python -m http.server 3018   # desde la raíz del repositorio
 ```
 
 Abrir `http://localhost:3018` (variante A, caja de idea) o `http://localhost:3018/b.html` (variante B, formulario). Atajos:

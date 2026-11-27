@@ -201,7 +201,7 @@ API = r"""  /* ---------- Registro (Think4Ever Landing API v3) ---------- */
   var MODES = { intent: 'design', code: 'analyze', hardening: 'harden', prototype: 'prototype' };
   var UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
   var GITHUB_URL = /https?:\/\/(www\.)?github\.com\/[^\/\s]+\/[^\/\s]+/i;
-  // Igual que la plantilla publicada por David Stephan: con la portada 2 la variante A reporta research_a2
+  // Igual que la plantilla publicada por Publicidad: con la portada 2 la variante A reporta research_a2
   var FLOW = 'research_' + variant + (variant === 'a' && HERO === '2' ? '2' : '');
   var REF = params.get('ref') || '', INV = params.get('inv') || '';
   var st = { path: 'intent', source: '', intent: null, chosen: false, email: '', busy: false, done: false, resendWait: false };
@@ -640,7 +640,7 @@ body.ws-on #sheet-quote, body.ws-on #sheet-prep { display: none; }
   .ws-canvas i { position: absolute; width: 22%; height: 20%; border: 1px solid #2A3B50; }
 }
 @media (prefers-reduced-motion: reduce) { .ws, .ws-dots i, .ws-list i, .ws-canvas i { animation: none; } }
-/* La cortina en tema claro (pedido de Amar y Sunil, 12-nov en la noche): mismo fondo limpio de la landing
+/* La cortina en tema claro (pedido de Dirección, 12-nov): mismo fondo limpio de la landing
    y azul del portal, para que no parezca de otro sitio. Pisa los colores oscuros de arriba. */
 .ws { color: #0f172a;
   background:
@@ -799,7 +799,7 @@ def page(variant, hubl, assets=None):
         h = rep(h, '<body data-v="a">', '<body data-v="%s">\n%s' % (variant, SYMBOL))
     cfg = 'window.T4E_RS={%sposters:%s};' % (('assets:"%s",' % assets) if assets else '', POSTERS)
     if hubl:
-        # Igual que la plantilla publicada por David Stephan: carteles desde los archivos de HubSpot (sin base64)
+        # Igual que la plantilla publicada por Publicidad: carteles desde los archivos de HubSpot (sin base64)
         # y Object.assign, para que lo que fije el encabezado de cada pagina (window.T4E_RS) no se pierda.
         A = 'https://go.think4ever.com/hubfs/t4e-landing-research/assets/'
         cfg = ('window.T4E_RS=Object.assign({posters:{mascot:"' + A + 'mascota/idle/f_0001.webp",how:["' + A + 'como/f_0001.webp","'

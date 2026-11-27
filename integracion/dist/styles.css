@@ -519,7 +519,7 @@ body.ws-on #sheet-quote, body.ws-on #sheet-prep { display: none; }
   .ws-canvas i { position: absolute; width: 22%; height: 20%; border: 1px solid #2A3B50; }
 }
 @media (prefers-reduced-motion: reduce) { .ws, .ws-dots i, .ws-list i, .ws-canvas i { animation: none; } }
-/* La cortina en tema claro (pedido de Amar y Sunil, 12-nov en la noche): mismo fondo limpio de la landing
+/* La cortina en tema claro (pedido de Dirección, 12-nov): mismo fondo limpio de la landing
    y azul del portal, para que no parezca de otro sitio. Pisa los colores oscuros de arriba. */
 .ws { color: #0f172a;
   background:

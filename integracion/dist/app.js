@@ -664,7 +664,7 @@
   var MODES = { intent: 'design', code: 'analyze', hardening: 'harden', prototype: 'prototype' };
   var UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
   var GITHUB_URL = /https?:\/\/(www\.)?github\.com\/[^\/\s]+\/[^\/\s]+/i;
-  // Igual que la plantilla publicada por David Stephan: con la portada 2 la variante A reporta research_a2
+  // Igual que la plantilla publicada por Publicidad: con la portada 2 la variante A reporta research_a2
   var FLOW = 'research_' + variant + (variant === 'a' && HERO === '2' ? '2' : '');
   var REF = params.get('ref') || '', INV = params.get('inv') || '';
   var st = { path: 'intent', source: '', intent: null, chosen: false, email: '', busy: false, done: false, resendWait: false };
